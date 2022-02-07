@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta httlp-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../static//style.css">
+    <title>Bonfo</title>
+</head>
+<body>
+    <div class="center container" >
+        <img class="image_center" src="../static/Bonfo-transparent.png" alt="Bonfo logo transparent background" class="logo">
+        {% if message %}
+        <p style="font-style:italic" class="message">{{ message | safe }}</p>
+        {% endif %}
+        <form class="center" action="/user_profile" method="POST">
+            <label for="uname">Username:</label>
+            <input type="text" id="uname" name="uname"><br><br>
+
+            <label for="pword">Password:</label>
+            <input type="password" id="pword" name="pword"><br><br>
+
+            <input type="submit" value="Log In">
+        </form><br><br>
+        <form class="center" action="/user_register" method="POST">
+            <input type="submit" value="Not registered yet? Click here!">
+        </form>
+    </div>
+</body>
+</html>
