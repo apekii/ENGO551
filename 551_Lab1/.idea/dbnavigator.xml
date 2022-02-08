@@ -36,9 +36,7 @@
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files>
-      <object connection-id="00a577ae-108c-49e3-9d64-02fb5dc1e0b0" object-ref="consoles/Heroku" />
-    </open-files>
+    <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="00a577ae-108c-49e3-9d64-02fb5dc1e0b0" />

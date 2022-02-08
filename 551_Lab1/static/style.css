@@ -1,7 +1,9 @@
+html * {
+    font-family: Corbel !important;
+}
 body {
     background-color:#491370;
     color: #ffd666;
-    font-family: Monaco;
     line-height: 20px;
 }
 
