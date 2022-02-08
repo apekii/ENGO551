@@ -1,10 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "layout.html" %}
 
-</body>
-</html>
+{% block title %}
+    Register New User
+{% endblock %}
+
+<!-- routes:
+/user_profile POST? -->
+
+{% block content %}
+    <form class="center" action="/user_profile" method="POST">
+        <img class="image_center" style="max-width:50%;height:auto;max-height:100%;" src="../static/Bonfo-login.png" alt="Bonfo logo for login page">
+        <div class="center">
+            <label for="username">Create Username:</label>
+            <input type="text" id="username" name="username" required><br><br>
+
+            <label for="password">Create Password:</label>
+            <input type="password" id="password" name="password" required><br><br>
+        </div>
+
+        <button style="background-color:#ffd666;color:#320340;" class="btn btn-primary" type="submit">Register</button>
+    </form>
+{% endblock %}

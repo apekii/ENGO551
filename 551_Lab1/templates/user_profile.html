@@ -1,10 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "layout.html" %}
 
-</body>
-</html>
+{% block title %}
+    Log In
+{% endblock %}
+
+<!-- routes:
+/user_profile GET
+/user_register GET -->
+
+{% block content %}
+
+<h1 class="center">Hello {{session.user_name}}!</h1>
+<p class="center">Use the links in the navigation bar to get started</p>
+
+{% endblock %}
