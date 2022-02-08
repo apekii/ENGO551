@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Log In
+{% endblock %}
+
+<!-- routes:
+/user_profile GET
+/user_register GET -->
+
+{% block content %}
+    <img class="image_center" style="max-width:50%;height:auto;max-height:100%;" src="../static/Bonfo-login.png" alt="Bonfo logo for login page">
+    <div class="center">
+        <label for="uname">Username:</label>
+        <input type="text" id="uname" name="uname"><br><br>
+
+        <label for="pword">Password:</label>
+        <input type="password" id="pword" name="pword"><br><br><br><br>
+    </div>
+
+    <form class="center" action="/user_profile" method="GET">
+        <button style="background-color:#ffd666;color:#320340;" class="btn btn-primary" type="submit">Log In</button>
+    </form>
+
+    <form class="center" action="/user_register" method="GET">
+        <button style="color:#320340;" class="btn btn-link" type="submit">Not registered yet? Create an account here!</button>
+    </form>
+{% endblock %}
