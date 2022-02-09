@@ -1,10 +1,83 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "layout.html" %}
 
-</body>
-</html>
+{% block title %}
+    {{t_by_a}}
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 mt-3">
+                <div class="card" style="background-color:#fff8d6;border-radius:25px;">
+                    <div class="card-horizontal">
+                        <div style="padding:15px">
+                            <img class="card-img-top" src="http://covers.openlibrary.org/b/isbn/{{book[0]['isbn']}}-M.jpg"
+                            style="border-radius:25px;max-height:250px;width:auto;"
+                            alt="Card image cap">
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title">{{book[0]['title']}}</h4>
+                            <h5 class="card-text">By {{book[0]['author']}}</h5>
+                            <p class="card-text">Published in {{book[0]['year']}}</p>
+                            <p class="card-text">ISBN: {{book[0]['isbn']}}</p>
+                            <br>
+                            <h5><u>Google Books Rating</u></h5>
+                            <h4>{{rating}}</h4>
+                            <h6>Using {{no_rating}} ratings</h6>
+                        </div>
+                    </div>
+                    <div>
+                        <p style="text-align:center">Click <a href="/api/{{book[0]['isbn']}}">here</a> to get a JSON response!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><br>
+
+
+    <div class="container-fluid">
+        <div class="card" style="background-color:#fff8d6;border-radius:25px;">
+            <div class="card-body">
+                <h3>My Review</h3>
+                {% if session.user_name %}
+                    {% if count == 0 %}
+                        <p>No review submitted. Click <a href="/user_write_review/{{book[0]['isbn']}}">here</a> to submit a review!</p>
+                    {% else %}
+                        <h8>Rating: {{review[0]['rating']}}/5</h8><br><br>
+                        <h5>{{review[0]['review_title']}}</h5>
+                        <p>{{review[0]['review']}}</p>
+                    {% endif %}
+                {% else %}
+                    <p>Please log in to view your review.</p>
+                {% endif %}
+            </div>
+        </div><br>
+
+        <div class="card" style="background-color:#fff8d6;border-radius:25px;">
+            <div class="card-body">
+                <h3>Reviews From Bonfo Users</h3>
+                {% if count_all == 0 %}
+                    <p>There have been no reviews made by Bonfo users.</p>
+                {% else %}
+                    <div class="container">
+                        {% for rev in all_review %}
+                            <h5>User: {{rev['username']}}</h5>
+                            <p>Rating: {{rev['rating']}}</p>
+                            <h5>{{rev['review_title']}}</h5>
+                            <h8>{{rev['review']}}</h8>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div><br><br>
+
+
+    <h3>Make another search!</h3>
+    <form action="/book_search" method="GET">
+        <div class="form-group">
+            <input type="text" class="form-control" name="book" autofocus aria-describedby="bookHelp">
+        </div>
+        <button style="background-color:#ffd666;color:#320340;" class="btn btn-primary" type="submit">Search</button>
+    </form>
+{% endblock %}

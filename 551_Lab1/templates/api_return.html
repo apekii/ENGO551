@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    JSON Response
+{% endblock %}
+
+{% block content %}
+    <h3>This is your JSON response:</h3>
+    <div>
+        <p style="font-family:Courier New;">{</p>
+        <p style="font-family:Courier New;">&emsp;"title": "{{json_val[0]}}",</p>
+        <p style="font-family:Courier New;">&emsp;"author": "{{json_val[1]}}",</p>
+        <p style="font-family:Courier New;">&emsp;"publishedDate": "{{json_val[2]}}",</p>
+        <p style="font-family:Courier New;">&emsp;"ISBN_10": "{{json_val[3]}}",</p>
+        <p style="font-family:Courier New;">&emsp;"ISBN_13": "{{json_val[4]}}",</p>
+        <p style="font-family:Courier New;">&emsp;"reviewCount": {{json_val[5]}},</p>
+        <p style="font-family:Courier New;">&emsp;"averageRating": {{json_val[6]}}</p>
+        <p style="font-family:Courier New;">}</p>
+    </div>
+
+{% endblock %}

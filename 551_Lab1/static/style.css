@@ -1,5 +1,5 @@
 html * {
-    font-family: Corbel !important;
+    font-family: Corbel;
 }
 body {
     background-color:#491370;
@@ -8,11 +8,21 @@ body {
 }
 
 .container {
+    border-radius: 25px;
     margin: auto;
     margin-top: 15px;
     padding: 15px;
     background-color: #ffefa6;
     color: #320340;
+}
+
+.flex-container {
+  display: flex;
+}
+
+.card-horizontal {
+    display: flex;
+    flex: 1 1 auto;
 }
 
 .center {

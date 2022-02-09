@@ -1,10 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "layout.html" %}
 
-</body>
-</html>
+{% block title %}
+    Leave a review
+{% endblock %}
+
+{% block content %}
+    <h3>Which book would you like to review?</h3>
+    <form action="/book_search" method="GET">
+        <div class="form-group">
+            <input type="text" class="form-control" name="book" autofocus aria-describedby="bookHelp">
+        </div>
+        <button style="background-color:#ffd666;color:#320340;" class="btn btn-primary" type="submit">Search</button>
+    </form>
+{% endblock %}

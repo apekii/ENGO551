@@ -1,34 +1,50 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Results for {{session.book}}
+    Results for {{search_name}}
 {% endblock %}
 
 <!-- routes:
 /user_profile GET
 /user_register GET -->
 
-<!-- NEXT UP IS CREATING CARDS FOR THE BOOK RESULTS -->3
-
 {% block content %}
     <h3>Results for {{search_name}}</h3>
     <p>{{ message }}</p>
     <!--make card for every search result-->
+    {% for book in books %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 mt-3">
+                <div class="card" style="background-color:#fff8d6;border-radius:25px;">
+                    <div class="card-horizontal">
+                        <div style="padding:15px">
+                            <img class="card-img-top" src="http://covers.openlibrary.org/b/isbn/{{book['isbn']}}-M.jpg"
+                            style="border-radius:15px;max-height:250px;width:auto;"
+                            alt="Card image cap">
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title">{{book['title']}}</h4>
+                            <h5 class="card-text">By {{book['author']}}</h5>
+                            <p class="card-text">Published in {{book['year']}}</p>
+                            <p class="card-text">ISBN: {{book['isbn']}}</p>
 
-    <div class="card-columns">
-        {% for book in books %}
-        <div class="card w-70">
-            <div class="card-body">
-                <h4 class="card-title">{{book['title']}}</h4>
-                <h5 class="card-text">By {{book['author']}}</h5>
-                <p class="card-text">Published in {{book['year']}}</p>
-                <p class="card-text">ISBN: {{book['isbn']}}</p>
-                <a href="/book_search/{{book['isbn']}}" style="background-color:#ffd666;color:#320340;"
-                    class="btn btn-primary" type="submit">See more</a>
+                            <div class="button">
+                                <a href="/book_details/{{book['isbn']}}" style="background-color:#ffd666;color:#320340;"
+                               class="btn btn-primary btn-block" type="submit">See book details</a>
+                            </div>
+                            <br>
+                            <div class="button">
+                                <a href="/user_write_review/{{book['isbn']}}" style="background-color:#ffd666;color:#320340;"
+                               class="btn btn-primary btn-block" type="submit">Write a review</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div><br><br>
-        {% endfor %}
+        </div>
     </div>
+    {% endfor %}
 
     <h3>Make another search!</h3>
     <form action="/book_search" method="GET">
