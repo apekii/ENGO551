@@ -176,7 +176,7 @@ def user_write_review(isbn):
 
         flash('Review submitted!')
 
-        return render_template('/book_details/<isbn>".html')
+        return render_template('index_book_search.html')
     else:
         return render_template('user_write_review.html', review_for=review_for, book=val)
 
