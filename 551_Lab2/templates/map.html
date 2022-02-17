@@ -51,6 +51,8 @@ oms.addListener('spiderfy', function(markers) {
     mymap.closePopup();
 });
 
+var markers = L.markerClusterGroup();
+
 </script>
 
 {% for feature in features %}
@@ -68,7 +70,9 @@ var marker = L.marker(BP_location);
 marker.bindPopup('<p>Issued Date: {{ IssD }}</p><p>Work Class Group: {{ WCG }}</p><p>Contractor Name: {{ ConN }}</p><p>Community Name: {{ ComN }}</p><p>Original Address: {{ OrAd }}</p>').openPopup();
 
 mymap.addLayer(marker);
+markers.addLayer(marker);
 oms.addMarker(marker);
+mymap.addLayer(markers);
 
 </script>
 {% endfor %}

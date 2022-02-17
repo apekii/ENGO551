@@ -1,5 +1,0 @@
-function marker(geojson){
-
-
-
-}
