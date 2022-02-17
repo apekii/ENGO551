@@ -6,6 +6,10 @@
        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
        crossorigin=""/>
     <link rel="stylesheet" href="../static/style.css"/>
+
+    <script type="text/javascript" src="static/search.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OverlappingMarkerSpiderfier-Leaflet/0.2.6/oms.min.js"></script>
+
     <title>Calgary BP Search</title>
 </head>
 
@@ -31,16 +35,46 @@
 <script>
 
 calgary = [51.0447, -114.0719];
-var mymap = L.map('map').setView(calgary, 13);
-
+var mymap = L.map('map').setView(calgary, 10);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: 'Map data &copy;<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'
     }).addTo(mymap);
 
+var oms = new OverlappingMarkerSpiderfier(mymap);
+    var popup = new L.Popup();
+    oms.addListener('click', function(marker) {
+    popup.setContent(marker.desc);
+    popup.setLatLng(marker.getLatLng());
+    mymap.openPopup(popup);
+    });
+oms.addListener('spiderfy', function(markers) {
+    mymap.closePopup();
+});
+
 </script>
 
-<script type="text/javascript" src="{{url_for('static', filename='search.js') }}"></script>
-<script type="text/javascript">marker({{geocode|tojson|safe}});</script>
+{% for feature in features %}
+<script>
+
+var BP_location = ['{{ feature['properties']['latitude'] }}','{{ feature['properties']['longitude'] }}'];
+var marker = L.marker(BP_location);
+
+{% set IssD = feature['properties']['issueddate'] %}
+{% set WCG = feature['properties']['workclassgroup'] %}
+{% set ConN = feature['properties']['contractorname'] %}
+{% set ComN = feature['properties']['communityname'] %}
+{% set OrAd = feature['properties']['originaladdress'] %}
+
+marker.bindPopup('<p>Issued Date: {{ IssD }}</p><p>Work Class Group: {{ WCG }}</p><p>Contractor Name: {{ ConN }}</p><p>Community Name: {{ ComN }}</p><p>Original Address: {{ OrAd }}</p>').openPopup();
+
+mymap.addLayer(marker);
+oms.addMarker(marker);
+
+</script>
+{% endfor %}
+
+<script>
+</script>
 
 </body>
 

@@ -42,7 +42,7 @@ def map_details():
     print(url)
     #print(features)
 
-    return render_template("map.html", response=response)
+    return render_template("map.html", features=features)
 
 # how do you render_template when you're just refreshing
 # the map and not going to different html page?
