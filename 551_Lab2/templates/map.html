@@ -13,15 +13,21 @@
 
 <h1>Search for Building Permits in Calgary</h1>
 
-
+<form action="/search" method="POST">
+    <label>Issued Dates: </label>
+    <input placeholder="From..." type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="from_date"/>
+    <input placeholder="To..." type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="to_date"/>
+    <button type="submit">Search</button>
+</form><br><br>
 
 <div id="map" class="leaflet-container"></div>
+
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
    crossorigin="">
 </script>
 
-<!-- creating JS script -->
+<!-- creating JS script{{geojsonFeature}} -->
 <script>
 
 calgary = [51.0447, -114.0719];
@@ -30,11 +36,11 @@ var mymap = L.map('map').setView(calgary, 13);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: 'Map data &copy;<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'
     }).addTo(mymap);
-L.marker(calgary).addTo(mymap)
-    .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
-    .openPopup();
 
 </script>
+
+<script type="text/javascript" src="{{url_for('static', filename='search.js') }}"></script>
+<script type="text/javascript">marker({{geocode|tojson|safe}});</script>
 
 </body>
 
