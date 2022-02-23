@@ -1,0 +1,44 @@
+Flask~=2.0.2
+Flask-Session
+psycopg2-binary
+SQLAlchemy~=1.4.31
+
+# This file is used by pip to install required python packages
+# Usage: pip install -r requirements.txt
+
+# Flask Framework
+click==7.1.2
+Flask==2.0.2
+itsdangerous==2.0.1
+Jinja2==3.0.0
+MarkupSafe==2.0.0rc2
+Werkzeug==2.0.0
+
+# Flask Packages
+Flask-Login==0.4.0
+Flask-Migrate==2.0.2
+Flask-Script==2.0.5
+Flask-SQLAlchemy==2.4.0
+Flask-WTF==0.14.2
+Flask-User==1.0.1.5
+
+# Automated tests
+pytest==3.0.5
+pytest-cov==2.4.0
+form~=0.0.1
+pip~=22.0.3
+wheel~=0.37.1
+cryptography~=36.0.1
+py~=1.11.0
+blinker~=1.4
+requests~=2.27.1
+sodapy~=2.1.0
+certifi~=2021.10.8
+six~=1.16.0
+cachelib~=0.6.0
+idna~=3.3
+urllib3~=1.26.8
+greenlet~=1.1.2
+setuptools~=60.8.1
+psycopg2~=2.9.3
+pandas~=1.4.1

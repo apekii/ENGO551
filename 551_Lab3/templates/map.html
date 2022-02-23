@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <!-- leaflet link -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+       integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+       crossorigin=""/>
+    <!-- css stylesheet link -->
+    <link rel="stylesheet" href="../static/style.css"/>
+    <!-- marker cluster links -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css"/>
+    <!-- mapbox link -->
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.css"/>
+
+    <!-- jquery library -->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <!-- leaflet library -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+       integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+       crossorigin=""></script>
+    <!-- mapbox library *must be below the leaflet library* -->
+    <script src="https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.js"></script>
+    <!-- search.js "BP_locations" function file -->
+    <script type="text/javascript" src="static/search.js"></script>
+    <!-- Overlapping Marker Spiderfier library *must be below leaflet library* -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OverlappingMarkerSpiderfier-Leaflet/0.2.6/oms.min.js"></script>
+    <!-- marker cluster library -->
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+
+    <title>Calgary BP Search</title>
+</head>
+
+<body class="center">
+<div class="container">
+    <h1>Search for Building Permits in Calgary</h1>
+
+    <form action="/search" method="POST">
+        <label>Issued Dates: </label>
+        <input placeholder="From..." type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="from_date"/>
+        <input placeholder="To..." type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="to_date"/>
+        <button type="submit">Search</button>
+    </form><br><br>
+
+    <div id="map" class="leaflet-container"></div><br>
+
+    <script>
+
+    calgary = [51.0447, -114.0719];
+    var mymap = new L.map('map').setView(calgary, 11);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'Map data &copy;<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'
+        }).addTo(mymap);
+
+    </script>
+
+    <input type="checkbox" id="traf_in" name="traf_in" value="yes" onClick="window.location.reload();">
+    <label for="traf_in"> View Traffic Incidents </label><br><br>
+
+    <script>
+        const cb = document.querySelector('#traf_in');
+        if (cb.checked){
+            L.mapbox.accessToken = "pk.eyJ1IjoiYXBla2lpIiwiYSI6ImNrenoxNXFveTA1cGozanBrc29paXI2Y2kifQ.4g4abbQmIPvkL0b5z7XBAQ"
+            L.mapbox.styleLayer('mapbox://styles/apekii/ckzyzv0c900d415oathavcswk').addTo(mymap);
+        }
+        else {
+        }
+    </script>
+
+    {% if geocode %}
+    <script type="text/javascript">
+        BP_locations({{features|tojson|safe}});
+    </script>
+    {% endif %}
+
+
+</div>
+
+</body>
+
+</html>
