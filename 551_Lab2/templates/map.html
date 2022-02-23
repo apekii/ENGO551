@@ -14,71 +14,83 @@
 </head>
 
 <body class="center">
+<div class="container">
+    <h1>Search for Building Permits in Calgary</h1>
 
-<h1>Search for Building Permits in Calgary</h1>
+    <form action="/search" method="POST">
+        <label>Issued Dates: </label>
+        <input placeholder="From..." type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="from_date"/>
+        <input placeholder="To..." type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="to_date"/>
+        <button type="submit">Search</button>
+    </form><br><br>
 
-<form action="/search" method="POST">
-    <label>Issued Dates: </label>
-    <input placeholder="From..." type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="from_date"/>
-    <input placeholder="To..." type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="to_date"/>
-    <button type="submit">Search</button>
-</form><br><br>
+    <div id="map" class="leaflet-container"></div><br>
 
-<div id="map" class="leaflet-container"></div>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+       integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+       crossorigin="">
+    </script>
 
-<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-   crossorigin="">
-</script>
+    <!-- creating JS script{{geojsonFeature}} -->
+    <script>
 
-<!-- creating JS script{{geojsonFeature}} -->
-<script>
+    calgary = [51.0447, -114.0719];
+    var mymap = L.map('map').setView(calgary, 10);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'Map data &copy;<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'
+        }).addTo(mymap);
 
-calgary = [51.0447, -114.0719];
-var mymap = L.map('map').setView(calgary, 10);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: 'Map data &copy;<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'
-    }).addTo(mymap);
+    </script>
 
-var oms = new OverlappingMarkerSpiderfier(mymap);
-    var popup = new L.Popup();
-    oms.addListener('click', function(marker) {
-    popup.setContent(marker.desc);
-    popup.setLatLng(marker.getLatLng());
-    mymap.openPopup(popup);
+    <!--
+
+    var oms = new OverlappingMarkerSpiderfier(mymap);
+        var popup = new L.Popup();
+        oms.addListener('click', function(marker) {
+        popup.setContent(marker.desc);
+        popup.setLatLng(marker.getLatLng());
+        mymap.openPopup(popup);
+        });
+    oms.addListener('spiderfy', function(markers) {
+        mymap.closePopup();
     });
-oms.addListener('spiderfy', function(markers) {
-    mymap.closePopup();
-});
 
-var markers = L.markerClusterGroup();
+    var markers = L.markerClusterGroup();
 
-</script>
+    </script>
 
-{% for feature in features %}
-<script>
+    {% for feature in features %}
+    <script>
 
-var BP_location = ['{{ feature['properties']['latitude'] }}','{{ feature['properties']['longitude'] }}'];
-var marker = L.marker(BP_location);
+    var BP_location = ['{{ feature['properties']['latitude'] }}','{{ feature['properties']['longitude'] }}'];
+    var marker = L.marker(BP_location);
 
-{% set IssD = feature['properties']['issueddate'] %}
-{% set WCG = feature['properties']['workclassgroup'] %}
-{% set ConN = feature['properties']['contractorname'] %}
-{% set ComN = feature['properties']['communityname'] %}
-{% set OrAd = feature['properties']['originaladdress'] %}
+    {% set IssD = feature['properties']['issueddate'] %}
+    {% set WCG = feature['properties']['workclassgroup'] %}
+    {% set ConN = feature['properties']['contractorname'] %}
+    {% set ComN = feature['properties']['communityname'] %}
+    {% set OrAd = feature['properties']['originaladdress'] %}
 
-marker.bindPopup('<p>Issued Date: {{ IssD }}</p><p>Work Class Group: {{ WCG }}</p><p>Contractor Name: {{ ConN }}</p><p>Community Name: {{ ComN }}</p><p>Original Address: {{ OrAd }}</p>').openPopup();
+    marker.bindPopup('<p>Issued Date: {{ IssD }}</p><p>Work Class Group: {{ WCG }}</p><p>Contractor Name: {{ ConN }}</p><p>Community Name: {{ ComN }}</p><p>Original Address: {{ OrAd }}</p>').openPopup();
 
-mymap.addLayer(marker);
-markers.addLayer(marker);
-oms.addMarker(marker);
-mymap.addLayer(markers);
+    mymap.addLayer(marker);
+    markers.addLayer(marker);
+    oms.addMarker(marker);
+    mymap.addLayer(markers);
 
-</script>
-{% endfor %}
+    </script>
+    {% endfor %}
 
-<script>
-</script>
+    -->
+
+    <script>
+        function BP_locations()
+    </script>
+    <script type="text/javascript" src="{{url_for('static', filename='search.js') }}"></script>
+    <script type="text/javascript">BP_locations({{geocode}});</script>
+
+
+</div>
 
 </body>
 

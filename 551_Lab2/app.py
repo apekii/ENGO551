@@ -23,7 +23,7 @@ results_df = pd.DataFrame.from_records(results)
 # routes
 @app.route('/')
 def index():
-    return render_template("map.html", features='')
+    return render_template("map.html", features='', geocode='')
 
 
 @app.route('/search', methods=["GET", "POST"])
@@ -42,4 +42,4 @@ def map_details():
     print(url)
     #print(features)
 
-    return render_template("map.html", features=features)
+    return render_template("map.html", features=features, geocode=response)
