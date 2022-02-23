@@ -40,6 +40,5 @@ def map_details():
     features = response['features']
 
     print(url)
-    #print(features)
 
     return render_template("map.html", features=features, geocode=response)
