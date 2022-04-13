@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+
+    <!-- leaflet link -->
+     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+     integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+     crossorigin="">
+
+    <!-- turf -->
+    <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+
+    <title>Calgary BP Search</title>
+</head>
+
+<body class="center">
+
+<h1>ENGO 551 Lab 5</h1>
+
+<input id="clear" type="submit" name="button" value="Clear Polyline"/><br><br>
+<input id="simplify" type="submit" name="button" value="Simplify Polyline"/><br><br>
+
+<script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
+    integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
+    crossorigin=""></script>
+<script src="https://unpkg.com/@turf/turf@5.1.6/turf.min.js"></script>
+
+<div id="map" class="image_center" style="width: 600px; height: 600px;"></div>
+
+<script>
+    calgary = [51.0447, -114.0719];
+    var map = new L.map('map').setView(calgary, 11);
+	L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'Map data &copy;<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'
+        }).addTo(map);
+
+
+    let lnlt = [];
+    let ltln = [];
+
+    var simp_layer = L.geoJSON().addTo(map);
+    var marker;
+
+    function onMapClick(e) {
+        lnlt.push([e.latlng.lng,e.latlng.lat]);
+        ltln.push([e.latlng.lat,e.latlng.lng]);
+
+        var popup = L.popup()
+            .setLatLng(e.latlng)
+            .setContent("Point " + ltln[ltln.length-1] + " has been added to your polyline")
+            .openOn(map);
+
+        if (marker != undefined) {
+            map.removeLayer(marker);
+        };
+        marker = L.marker(e.latlng).addTo(map);
+
+        map.removeLayer(simp_layer);
+
+        var plyln = turf.lineString(lnlt);
+        simp_layer = L.geoJSON(plyln).addTo(map);
+    }
+
+    // simplify polyline
+    document.getElementById('simplify').onclick = function() {
+        map.removeLayer(simp_layer);
+        map.closePopup();
+
+        var options = {tolerance: 0.01, highQuality: false};
+        var plyln = turf.lineString(lnlt);
+        var plyln_simp = turf.simplify(plyln,options);
+        simp_layer = L.geoJSON(plyln_simp,
+            {style: function(){
+                return { color: 'red' };
+            }}
+        ).addTo(map);
+
+    };
+
+    // remove points in polyline and ltln/lnlt
+    document.getElementById('clear').onclick = function() {
+        map.closePopup();
+        map.removeLayer(simp_layer);
+        lnlt = [];
+        lnlt = [];
+    };
+
+    map.on('click', onMapClick);
+
+</script>
+
+</body>
+
+</html>
